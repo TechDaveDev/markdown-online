@@ -2,21 +2,114 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #F7F8FA;
+  --surface: #FFFFFF;
+  --muted: #F1F3F5;
+
+  --text-default: #1C1D21;
+  --text-muted: #6B7280;
+  --text-heading: #111827;
+  --text-link: #2563EB;
+
+  --border-default: #D1D5DB;
+  --border-subtle: #F3F4F6;
+  --focus-ring: #3B82F6;
+
+  --accent-primary: #2563EB;
+  --accent-primary-hover: #1D4ED8;
+  --accent-primary-text: #FFFFFF;
+
+  --syntax-heading: #1D4ED8;
+  --syntax-bold: #065F46;
+  --syntax-italic: #9333EA;
+  --syntax-link: #BE185D;
+  --syntax-code: #D97706;
+  --syntax-quote: #6B7280;
+  --bg-code: #E5E7EB;
+
+  --status-success: #10B981;
+  --status-warning: #F59E0B;
+}
+
+.dark {
+  --canvas: #0F1012;
+  --surface: #17181C;
+  --muted: #202227;
+
+  --text-default: #E5E6E8;
+  --text-muted: #8E94A0;
+  --text-heading: #F9FAFB;
+  --text-link: #60A5FA;
+
+  --border-default: #31343B;
+  --border-subtle: #25272C;
+  --focus-ring: #60A5FA;
+
+  --accent-primary: #3B82F6;
+  --accent-primary-hover: #60A5FA;
+  --accent-primary-text: #FFFFFF;
+
+  --syntax-heading: #60A5FA;
+  --syntax-bold: #34D399;
+  --syntax-italic: #C084FC;
+  --syntax-link: #F472B6;
+  --syntax-code: #FBBF24;
+  --syntax-quote: #8E94A0;
+  --bg-code: #25272C;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+
+  --color-text-default: var(--text-default);
+  --color-text-muted: var(--text-muted);
+  --color-text-heading: var(--text-heading);
+  --color-text-link: var(--text-link);
+
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-focus-ring: var(--focus-ring);
+
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-primary-hover: var(--accent-primary-hover);
+  --color-accent-primary-text: var(--accent-primary-text);
+
+  --color-syntax-heading: var(--syntax-heading);
+  --color-syntax-bold: var(--syntax-bold);
+  --color-syntax-italic: var(--syntax-italic);
+  --color-syntax-link: var(--syntax-link);
+  --color-syntax-code: var(--syntax-code);
+  --color-syntax-quote: var(--syntax-quote);
+  --color-bg-code: var(--bg-code);
 }
 
-@media (prefers-color-scheme: dark) {
+.prose {
+  --tw-prose-body: var(--text-default);
+  --tw-prose-headings: var(--text-heading);
+  --tw-prose-lead: var(--text-muted);
+  --tw-prose-links: var(--text-link);
+  --tw-prose-bold: var(--syntax-bold);
+  --tw-prose-counters: var(--text-muted);
+  --tw-prose-bullets: var(--border-default);
+  --tw-prose-hr: var(--border-default);
+  --tw-prose-quotes: var(--syntax-quote);
+  --tw-prose-quote-borders: var(--border-default);
+  --tw-prose-captions: var(--text-muted);
+  --tw-prose-code: var(--syntax-code);
+  --tw-prose-pre-code: var(--syntax-code);
+  --tw-prose-pre-bg: var(--bg-code);
+  --tw-prose-th-borders: var(--border-default);
+  --tw-prose-td-borders: var(--border-default);
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
