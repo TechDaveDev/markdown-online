@@ -1,11 +1,12 @@
-import MarkdownEditor from '@/components/MarkdownEditor';
+import { MarkdownEditor } from "@/components/MarkdownEditor";
+
 
 export default function Home() {
   return (
-    <>
-      <div className="min-h-screen flex flex-col">
+    <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex flex-col h-full">
         <MarkdownEditor />
       </div>
-    </>
+    </main>
   );
 }
