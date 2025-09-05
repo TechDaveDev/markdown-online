@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, FC } from 'react';
 import { marked } from 'marked';
 
 const CheckIcon = () => (
@@ -16,6 +16,23 @@ const EditIcon = () => (
   </svg>
 );
 
+const BoldIcon: FC = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" /></svg>
+);
+
+const ItalicIcon: FC = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l4-14" /></svg>
+);
+
+const CodeIcon: FC = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l-4 4m0 0l-4 4" /></svg>
+);
+
+const QuoteIcon: FC = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" /></svg>
+);
+
+
 marked.setOptions({
   gfm: true,
   breaks: true,
@@ -25,6 +42,7 @@ export const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState<string>('');
   const [status, setStatus] = useState<'saved' | 'editing'>('saved');
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const savedMarkdown = localStorage.getItem('markdownContent');
@@ -59,19 +77,55 @@ function hello() {
   useEffect(() => {
     if (markdown === '') return;
     setStatus('editing');
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     debounceTimeout.current = setTimeout(() => {
       localStorage.setItem('markdownContent', markdown);
       setStatus('saved');
     }, 1500);
     return () => {
-      if (debounceTimeout.current) {
-        clearTimeout(debounceTimeout.current);
-      }
+      if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     };
   }, [markdown]);
+
+  const applyFormat = (type: 'bold' | 'italic' | 'code' | 'quote') => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const { selectionStart, selectionEnd, value } = textarea;
+    const selectedText = value.substring(selectionStart, selectionEnd);
+
+    let formattedText;
+    let startChars = '';
+    let endChars = '';
+
+    switch (type) {
+      case 'bold':
+        startChars = '**';
+        endChars = '**';
+        break;
+      case 'italic':
+        startChars = '*';
+        endChars = '*';
+        break;
+      case 'code':
+        startChars = '`';
+        endChars = '`';
+        break;
+      case 'quote':
+        startChars = '> ';
+        break;
+    }
+
+    formattedText = `${startChars}${selectedText}${endChars}`;
+    const newText = `${value.substring(0, selectionStart)}${formattedText}${value.substring(selectionEnd)}`;
+    setMarkdown(newText);
+
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(selectionStart + startChars.length, selectionEnd + startChars.length);
+    }, 0);
+  };
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(event.target.value);
@@ -86,6 +140,17 @@ function hello() {
     return <><EditIcon /><span>Cambios sin guardar...</span></>;
   };
 
+  const ToolbarButton: FC<{ onClick: () => void; label: string; children: React.ReactNode }> = ({ onClick, label, children }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className="p-1.5 rounded-md text-text-muted hover:text-text-default hover:bg-muted group transition-colors"
+    >
+      {children}
+    </button>
+  );
+
   return (
     <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 h-full">
       <div className="flex flex-col bg-surface rounded-lg border border-border-default shadow-sm transition-all">
@@ -95,7 +160,24 @@ function hello() {
             {renderStatus()}
           </div>
         </div>
+
+        <div className="flex items-center gap-1 p-2 border-b border-border-default">
+          <ToolbarButton onClick={() => applyFormat('bold')} label="Aplicar negrita">
+            <BoldIcon />
+          </ToolbarButton>
+          <ToolbarButton onClick={() => applyFormat('italic')} label="Aplicar cursiva">
+            <ItalicIcon />
+          </ToolbarButton>
+          <ToolbarButton onClick={() => applyFormat('code')} label="Aplicar código en línea">
+            <CodeIcon />
+          </ToolbarButton>
+          <ToolbarButton onClick={() => applyFormat('quote')} label="Aplicar cita">
+            <QuoteIcon />
+          </ToolbarButton>
+        </div>
+
         <textarea
+          ref={textareaRef}
           className="w-full flex-grow p-4 resize-none bg-surface font-mono text-sm text-text-default placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring rounded-b-lg"
           onChange={handleInputChange}
           value={markdown}
@@ -115,3 +197,4 @@ function hello() {
     </div>
   );
 };
+
