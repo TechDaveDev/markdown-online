@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${inter.className} bg-slate-100 dark:bg-slate-900 min-h-screen flex flex-col`}
+        className={`${inter.className} bg-canvas min-h-screen flex flex-col`}
       >
         <Header />
         {children}
