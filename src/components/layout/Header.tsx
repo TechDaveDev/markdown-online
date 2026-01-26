@@ -23,17 +23,6 @@ const GitHubIcon = () => (
   </a>
 );
 
-const MarkdoneIcon = () => (
-  <div className="w-8 h-8 flex items-center justify-center bg-accent-primary rounded-lg">
-    <svg className="w-5 h-5 text-accent-primary-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="4" y1="9" x2="20" y2="9"></line>
-      <line x1="4" y1="15" x2="20" y2="15"></line>
-      <line x1="10" y1="3" x2="8" y2="21"></line>
-      <line x1="16" y1="3" x2="14" y2="21"></line>
-    </svg>
-  </div>
-);
-
 export const Header = () => {
   return (
     <header className="w-full sticky top-0 z-20 bg-surface/80 backdrop-blur-md border-b border-border-default">
@@ -41,12 +30,8 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16">
 
           <div className="flex items-center gap-3">
-            <MarkdoneIcon />
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-semibold text-text-heading">Markdone</h1>
-              <span className="px-1.5 py-0.5 text-xs font-mono tracking-tighter bg-muted text-text-muted rounded-full">
-                BETA
-              </span>
+              <h1 className="text-xl font-semibold text-text-heading">Markdone</h1>
             </div>
           </div>
 
